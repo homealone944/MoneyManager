@@ -1,8 +1,8 @@
 import { React, useState } from 'react';
 import './App.css';
 import { AppBar,Tab, Tabs, IconButton, Box, Typography, Button } from "@mui/material";
-import {Dialog, DialogTitle, DialogContent, DialogActions} from "@mui/material"
-import {AccountCircle} from '@mui/icons-material';
+import { Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material"
+import { AccountCircle } from '@mui/icons-material';
 import Overview from "./overview/Overview"
 import Budget from "./budget/Budget"
 import Transaction from "./transactions/Transactions"
@@ -28,7 +28,6 @@ function TabPanel(props) {
   );
 }
 
-
 function App() {
   
   const [tabVal, setTab] = useState(0)
@@ -43,6 +42,18 @@ function App() {
   const handleCloseAcct = (section) => {
     setOpenAcct(false)
   };
+
+  const [acctInfo, setAcctInfo] = useState({
+    "Name": "fName",
+    "Base Salary": 80000,
+    "Your 401k Contribution %": 8,
+    "Company 401k Contribution %": 6,
+  });
+  const handleUpdateAcctInfo = (k, v) => {
+    var temp = acctInfo
+    temp[k] = v
+    setAcctInfo(temp)
+  }
 
   return (
     <div className="App">
@@ -66,7 +77,7 @@ function App() {
       </AppBar>
 
       <TabPanel value={tabVal} index={0}>
-        <Overview/>
+        <Overview acctInfo={acctInfo} />
       </TabPanel>
       <TabPanel value={tabVal} index={1}>
         <Budget/>
@@ -82,7 +93,7 @@ function App() {
       >
         <DialogTitle>Account</DialogTitle>
         <DialogContent>
-          <Account/>
+          <Account acctInfo={acctInfo} updateAcctInfoFn={handleUpdateAcctInfo}/>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseAcct} color="primary">Close</Button>
